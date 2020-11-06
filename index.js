@@ -2,6 +2,8 @@ const { Plugin } = require('powercord/entities');
 const { inject, uninject } = require('powercord/injector');
 const { getModule, React } = require('powercord/webpack');
 
+const link_selector = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/;
+
 const Renderer = require('./components/Renderer');
 // const Settings = require('./components/Settings');
 
@@ -17,47 +19,26 @@ module.exports = class RichEmbeds extends Plugin {
 
     //this.loadStylesheet('./style.scss');
 
-    const ChannelMessage = (await getModule([ 'MESSAGE_ID_PREFIX' ])).default;
     const MessageContent = await getModule(m => m.type && m.type.displayName === 'MessageContent');
-    const cmType = ChannelMessage.type;
     const mcType = MessageContent.type;
 
-    /*const getSettings = () => {
-      const settingsList = ['setting'];
-      let settings = {};
-
-      settingsList.forEach((setting) => { settings[setting] = this.settings.get(setting, true) })
-
-      return settings
-    }*/
-
-    inject('Rich-Embeds-Message', ChannelMessage, 'type', (args, res) => {
-      if (res.props.childrenMessageContent) { 
-        if (linkSelector.test(args[0].message.content)) {
-          let MessageC = res.props.childrenMessageContent.props
-
-          MessageC.content = React.createElement(Renderer, {
-            content: MessageC.content,
-            message: args[0].message,
-            //settings: getSettings()
-          });
-
-          MessageC.re_preventInject = true;
-        }
-      }
-
-      return res;
-    }, false);
-    Object.assign(ChannelMessage.type, cmType);
-
-    // For search, pinned, inbox, threads, and other plugin compatibility
     inject('Rich-Embeds-Message-Content', MessageContent, 'type', (args, res) => {
-      if (!args[0].re_preventInject && linkSelector.test(args[0].message.content))
+      const message = args[0].message;
+
+      if (link_selector.test(message.content) || message.attachments.length !== 0) {
         res.props.children = React.createElement(Renderer, {
-          content: res.props.children[0],
-          message: args[0].message,
-          //settings: getSettings()
-      });
+          content: Array.isArray(res.props.children) ? res.props.children[0] : [ res.props.children ],
+          message: message,
+          /*settings: (() => {
+            const settingsList = ['setting'];
+            let settings = {};
+
+            settingsList.forEach((setting) => { settings[setting] = this.settings.get(setting, true) })
+
+            return settings
+          })()*/
+        });
+      }
 
       return res;
     })
@@ -65,8 +46,7 @@ module.exports = class RichEmbeds extends Plugin {
   }
 
   pluginWillUnload () {
-    powercord.api.settings.unregisterSettings("rich-quotes");
-    uninject('Rich-Quotes-Message');
-    uninject('Rich-Quotes-Message-Content');
+    //powercord.api.settings.unregisterSettings("rich-embeds");
+    uninject('Rich-Embeds-Message-Content');
   }
 };

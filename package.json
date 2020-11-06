@@ -1,0 +1,22 @@
+{
+  "name": "rich-embeds",
+  "version": "1.0.0",
+  "description": "A Discord plugin built for the Powercord loader to improve existing embeds and add new ones",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MulverineX/rich-embeds.git"
+  },
+  "author": "MulverineX",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/MulverineX/rich-embeds/issues"
+  },
+  "homepage": "https://github.com/MulverineX/rich-embeds#readme",
+  "dependencies": {
+    "mime-types": "^2.1.27"
+  }
+}
