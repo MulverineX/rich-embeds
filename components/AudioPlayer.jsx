@@ -10,7 +10,8 @@ module.exports = class EmbedRenderer extends React.Component {
 
   render() {
     return (<div className='re-audio-player'>
-      { `${this.props.file_name.replace(/\_(?!(\_))/g, ' ')} ${this.props.ext}@${this.props.format}` }
+      <h2>{this.props.file_name.replace(/\_(?!(\_))/g, ' ')}</h2>
+      { `${this.props.ext}@${this.props.format}` }
     </div>);
   }
 }
