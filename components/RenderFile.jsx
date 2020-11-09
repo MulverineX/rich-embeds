@@ -1,10 +1,12 @@
 const { getModule, React } = require('powercord/webpack');
 
-const mime = require('../node_modules/mime-types');
+const mime = require('mime-types');
 
-const AudioPlayer = require('./AudioPlayer');
+const Archive = require('./files/Archive'),
+      Audio =   require('./files/Audio'),
+      Vector =  require('./files/Vector');
 
-module.exports = class EmbedPatcher extends React.Component {
+module.exports = class RichFile extends React.Component {
   constructor(props) { super(props); this.state = {} }
 
   static getDerivedStateFromProps(props, state) {
@@ -18,7 +20,7 @@ module.exports = class EmbedPatcher extends React.Component {
     const file_name = _.takeRight(proxy_url, 1)[0].split('.');
 
 
-    if (mime_type[0] === 'audio') return (<AudioPlayer {...{
+    if (mime_type[0] === 'audio') return (<Audio {...{
       format: mime_type[1],
       ext: file_name.slice(-1)[0],
       src: this.props.embed.proxy_url,
