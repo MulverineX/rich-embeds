@@ -1,4 +1,4 @@
-const { getModule, React } = require('powercord/webpack');
+const { getModule, React, http: { get } } = require('powercord/webpack');
 
 const mime = require('mime-types');
 
@@ -12,9 +12,21 @@ module.exports = class RichEmbed extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  render() {
-    content = (<span>{this.props.link}</span>);
+  async componentDidMount () { await this.buildEmbed() }
 
+  async buildEmbed () {
+    this.setState({content: (<span>{this.props.link}</span>)});
+    
+    let data = false;
+
+    /*try {
+      data = await get({ url: this.props.link, retries: 2 });
+    } catch (e) {
+      console.log(e);
+    }*/
+  }
+
+  render() {
     console.log(this.state.content);
 
     return this.state.content;

@@ -6,7 +6,6 @@ const Archive = require('./files/Archive'),
       Audio =   require('./files/Audio'),
       Vector =  require('./files/Vector');
 
-
 module.exports = class RichFile extends React.Component {
   constructor(props) { super(props); this.state = {} }
 

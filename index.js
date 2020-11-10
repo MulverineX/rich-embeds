@@ -57,11 +57,12 @@ module.exports = class RichEmbeds extends Plugin {
       }
       
       if ((embeds.linked || embeds.native) || embed_links.length > 0) {
-        // Modify/Overwrite Embeds
-        if (embeds.linked) for (let e of embeds.linked) {
-          let embed = e.props.children;
 
-          if (edit_sites.test(embed.props.embed.url)) embed = React.createElement(RenderSite, {
+        // Modify/Overwrite Embeds
+        if (embeds.linked) for (let i in embeds.linked) {
+          let embed = accessories[3][i].props.children;
+
+          if (edit_sites.test(embed.props.embed.url)) accessories[3][i].props.children = React.createElement(RenderSite, {
             content: embed,
             data: embed.props.embed,
           });
@@ -71,24 +72,24 @@ module.exports = class RichEmbeds extends Plugin {
 
         // Create/Add Embeds
         if (embed_links.length !== 0) {
-          if (!embeds.linked) embeds.linked = [];
+          if (!embeds.linked) res.props.children[3] = [];
 
-          for (const link of embed_links) embeds.linked.push(React.createElement(RenderLink, {
+          for (const link of embed_links) res.props.children[3].push(React.createElement(RenderLink, {
             link: link, message: msg_link
-          }))
+          }));
 
-          console.log(embeds.linked)
+          console.log(accessories[3]);
         }
 
         // Modify/Overwrite Attachments
-        if (embeds.native) for (let a of embeds.native) {
-          let embed = a.props.children;
+        /*if (embeds.native) for (let i in embeds.native) {
+          let embed = accessories[2][i].props.children;
 
-          if (!embed.height) embed = React.createElement(RenderFile, {
+          if (!embed.height) accessories[2][i] = React.createElement(RenderFile, {
             content: embed, message: msg_link,
             data: embed.props.attachment
           });
-        }
+        }*/
       }
 
       return res;
