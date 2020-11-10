@@ -6,6 +6,7 @@ const Archive = require('./files/Archive'),
       Audio =   require('./files/Audio'),
       Vector =  require('./files/Vector');
 
+
 module.exports = class RichFile extends React.Component {
   constructor(props) { super(props); this.state = {} }
 
@@ -26,5 +27,6 @@ module.exports = class RichFile extends React.Component {
       src: this.props.embed.proxy_url,
       file_name: file_name.slice(0, -1).join('.')
     }} />);
+    else return this.state.content;
   }
 };

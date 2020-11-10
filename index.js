@@ -5,8 +5,9 @@ const { getModule, getModuleByDisplayName, React } = require('powercord/webpack'
 const edit_sites = new RegExp(`(${['github\.com', 'streamable\.com', 'twitch\.com', 'reddit\.com', 'twitter\.com'].join(')|(')})`);
 const add_sites = new RegExp(`(${['4chan\.org','curseforge\.com'].join(')|(')})`);
 
-const RenderFile = require('./components/RenderFile');
 const RenderSite = require('./components/RenderSite');
+const RenderLink = require('./components/RenderLink');
+const RenderFile = require('./components/RenderFile');
 
 module.exports = class RichEmbeds extends Plugin {
   async startPlugin () {
@@ -36,7 +37,9 @@ module.exports = class RichEmbeds extends Plugin {
         }
 
         parse(content, true, { channelId: message.channel_id }).forEach((e) => {
-          if (e?.props?.href && !(embedded && embedded.test(e.props.href))) {
+          if (e?.props?.href && add_sites.test(e.props.href) 
+           && !(embedded && embedded.test(e.props.href))
+           && !e.props.href.includes('imgur.com')) {
             let split = content.split(e.props.href);
 
             split[0] = split[0].slice(-1);
@@ -54,11 +57,38 @@ module.exports = class RichEmbeds extends Plugin {
       }
       
       if ((embeds.linked || embeds.native) || embed_links.length > 0) {
-        const data = {
-          embeds: accessories[3], attachments: accessories[2],
-          links: embed_links,
-          message: [accessories[6].props.channel.guild_id, message.channel_id, message.id]
-        };
+        // Modify/Overwrite Embeds
+        if (embeds.linked) for (let e of embeds.linked) {
+          let embed = e.props.children;
+
+          if (edit_sites.test(embed.props.embed.url)) embed = React.createElement(RenderSite, {
+            content: embed,
+            data: embed.props.embed,
+          });
+        }
+
+        const msg_link = [accessories[6].props.channel.guild_id, message.channel_id, message.id];
+
+        // Create/Add Embeds
+        if (embed_links.length !== 0) {
+          if (!embeds.linked) embeds.linked = [];
+
+          for (const link of embed_links) embeds.linked.push(React.createElement(RenderLink, {
+            link: link, message: msg_link
+          }))
+
+          console.log(embeds.linked)
+        }
+
+        // Modify/Overwrite Attachments
+        if (embeds.native) for (let a of embeds.native) {
+          let embed = a.props.children;
+
+          if (!embed.height) embed = React.createElement(RenderFile, {
+            content: embed, message: msg_link,
+            data: embed.props.attachment
+          });
+        }
       }
 
       return res;
