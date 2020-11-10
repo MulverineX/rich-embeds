@@ -7,7 +7,7 @@ module.exports = class RichSiteStreamable extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     return <></>;
   }
 };

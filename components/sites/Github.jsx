@@ -7,7 +7,7 @@ module.exports = class RichSiteGithub extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     return <></>;
   }
 };

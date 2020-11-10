@@ -17,7 +17,7 @@ module.exports = class RichEdited extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     return this.state.content;
   }
 };

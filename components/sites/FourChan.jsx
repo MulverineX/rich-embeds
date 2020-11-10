@@ -7,7 +7,7 @@ module.exports = class RichSiteFourChan extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     return <></>;
   }
 };

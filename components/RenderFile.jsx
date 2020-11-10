@@ -13,7 +13,7 @@ module.exports = class RichFile extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     const proxy_url = this.props.embed.proxy_url.split('/');
 
     const mime_type = mime.lookup(proxy_url[6]).split('/');

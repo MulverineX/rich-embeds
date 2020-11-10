@@ -7,7 +7,7 @@ module.exports = class RichSiteCurseforge extends React.Component {
     return { ...Object.assign({}, props), ...state };
   }
 
-  async render() {
+  render() {
     return <></>;
   }
 };
