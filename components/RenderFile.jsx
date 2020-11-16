@@ -41,7 +41,8 @@ module.exports = class RichFile extends React.Component {
       const proxy_url = this.props.embed.proxy_url.split('/');
 
       const file_name = _.last(proxy_url);
-      const mime_type = mime.lookup(file_name).split('/');
+
+      const mime_type = file_name.includes('.') ? (() => { try { return mime.lookup(file_name)?.split('/') } catch (e) { return false } })() : false;
 
       const size = this.props.embed.size;
 
@@ -65,8 +66,8 @@ module.exports = class RichFile extends React.Component {
           <span className={`re-file-size ${timestamp}`}>{file_size}</span>
         </div>
         <div className='re-file-toolbar'>
-          <Tooltip position='top' text={`${mime_type[0].split('')[0].toUpperCase()}${mime_type[0].split('').slice(1).join('')}`}>
-            <div></div><div className={`re-file-button re-file-type re-file-${mime_type[0]}`}></div>
+          <Tooltip position='top' text={mime_type ? `${mime_type[0].charAt(0).toUpperCase()}${mime_type[0].slice(1)}` : 'File'}>
+            <div></div><div className={`re-file-button re-file-type ${mime_type ? `re-file-${mime_type[0]}` : ''}`}></div>
           </Tooltip>
           <Tooltip className='re-clickable' position='top' text='Save'><div></div><div className='re-file-button re-file-save'></div></Tooltip>
           <Tooltip className='re-clickable' position='top' text='More'><div></div><div className='re-file-button re-file-more'></div></Tooltip>
