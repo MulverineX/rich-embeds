@@ -1,3 +1,13 @@
 .re-file-type {
     --re-file-icon: #{svg('./icons/file/default.svg')};
 }
+
+$types: 'archive', 'audio', 'image';
+
+@each $type in $types {
+    .re-file-type.re-file-#{$type} {
+        --re-file-icon: #{svg('./icons/file/' + $type + '.svg')};
+    };
+}
+
+@include icon()

@@ -9,11 +9,17 @@
         padding-top: 7px;
         padding-bottom: 7px;
         background: var(--background-tertiary);
-        
+
         &>.re-file-type {
+            color: var(--text-muted);
+
             background: var(--re-file-icon);
 
             width: 14px;
+            height: 14px;
+
+            margin-left: 16px;
+            margin-right: 16px;
         }
     }
 }
