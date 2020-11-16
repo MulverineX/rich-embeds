@@ -1,3 +1,5 @@
+@import 'icons.scss';
+
 .re-file {
     background-color: var(--background-secondary);
     padding: 8px;
@@ -10,6 +12,8 @@
         
         &>.re-file-type {
             background: var(--re-file-icon);
+
+            width: 14px;
         }
     }
 }
