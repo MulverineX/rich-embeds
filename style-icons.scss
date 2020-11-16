@@ -5,7 +5,7 @@
 $types: 'archive', 'audio', 'image', 'save', 'more';
 
 @each $type in $types {
-    .re-file-type.re-file-#{$type} {
+    .re-file-#{$type} {
         --re-file-icon: #{svg('./icons/file/' + $type + '.svg')};
     };
 }
