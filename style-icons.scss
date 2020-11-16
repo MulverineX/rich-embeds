@@ -2,7 +2,7 @@
     --re-file-icon: #{svg('./icons/file/default.svg')};
 }
 
-$types: 'archive', 'audio', 'image';
+$types: 'archive', 'audio', 'image', 'save', 'more';
 
 @each $type in $types {
     .re-file-type.re-file-#{$type} {

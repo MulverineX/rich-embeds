@@ -1,6 +1,6 @@
 const { Plugin } = require('powercord/entities');
 const { inject, uninject } = require('powercord/injector');
-const { getModule, getModuleByDisplayName, React } = require('powercord/webpack');
+const { getModule, React } = require('powercord/webpack');
 
 const edit_sites = new RegExp(`(${['github\.com', 'streamable\.com', 'twitch\.com', 'reddit\.com', 'twitter\.com'].join(')|(')})`);
 const add_sites = new RegExp(`(${['4chan\.org','curseforge\.com'].join(')|(')})`);
@@ -11,7 +11,7 @@ const RenderFile = require('./components/RenderFile');
 
 module.exports = class RichEmbeds extends Plugin {
   async startPlugin () {
-    
+
     this.loadStylesheet('./style.scss');
 
     const MessageAccessories = (await getModule(['MessageAccessories'])).MessageAccessories.prototype;

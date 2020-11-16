@@ -1,5 +1,7 @@
 const { getModule, React } = require('powercord/webpack');
 
+const { Tooltip } = require('powercord/components');
+
 const mime = require('mime-types');
 
 const Archive = require('./files/Archive'),
@@ -32,44 +34,48 @@ module.exports = class RichFile extends React.Component {
   }
 
   render() {
-    const { username, timestamp } = getModule([ 'systemMessageAccessories' ], false);
+    if (!this.props.embed.height) {
+      const { username, timestamp } = getModule([ 'systemMessageAccessories' ], false);
 
 
-    const proxy_url = this.props.embed.proxy_url.split('/');
+      const proxy_url = this.props.embed.proxy_url.split('/');
 
-    const mime_type = mime.lookup(proxy_url[6]).split('/');
-    const file_name = _.last(proxy_url);
+      const file_name = _.last(proxy_url);
+      const mime_type = mime.lookup(file_name).split('/');
 
-    const size = this.props.embed.size;
+      const size = this.props.embed.size;
 
-    const kb = roundTo((size / 1024), 2);
+      const kb = roundTo((size / 1024), 2);
 
-    let b = false;
-    let mb = false;
+      let b = false;
+      let mb = false;
 
-    if (kb < 1) b = size;
-    if (kb >= 1000) mb = roundTo((kb / 1024), 2);
+      if (kb < 1) b = size;
+      if (kb >= 1000) mb = roundTo((kb / 1024), 2);
 
-    const file_size = b ? `${b} bytes` : mb ? `${mb} MB` : `${kb} KB`;
+      const file_size = b ? `${b} bytes` : mb ? `${mb} MB` : `${kb} KB`;
+
+      switch (_.last(file_name.split('.'))) {
+        case 'zip': mime_type[0] = 'archive'; break;
+      }
 
 
-    /*if (mime_type[0] === 'audio') return (<Audio {...{
-      format: mime_type[1],
-      ext: file_name.slice(-1)[0],
-      src: this.props.embed.proxy_url,
-      file_name: file_name.slice(0, -1).join('.')
-    }} />);*/
+      console.log(mime_type[0])
 
-    return (<div className='re-file'>
-      <div className='re-file-header'>
-        <span className={`re-file-name ${username}`}>{file_name}</span>
-        <span className={`re-file-size ${timestamp}`}>{file_size}</span>
-      </div>
-      <div className='re-file-toolbar'>
-        <div className={`re-file-button re-file-type re-file-${mime_type[0]}`}></div>
-        <div className={`re-file-button re-file-save`}></div>
-        <div className={`re-file-button re-file-more`}></div>
-      </div>
-    </div>)
+      return (<div className='re-file'>
+        <div className='re-file-header'>
+          <span className={`re-file-name ${username}`}>{file_name}</span>
+          <span className={`re-file-size ${timestamp}`}>{file_size}</span>
+        </div>
+        <div className='re-file-toolbar'>
+          <Tooltip position='top' text={`${mime_type[0].split('')[0].toUpperCase()}${mime_type[0].split('').slice(1).join('')}`}>
+            <div className={`re-file-button re-file-type re-file-${mime_type[0]}`}></div>
+          </Tooltip>
+          <Tooltip position='top' text='Save'><div className={`re-file-button re-file-save`}></div></Tooltip>
+          <Tooltip position='top' text='More'><div className={`re-file-button re-file-more`}></div></Tooltip>
+        </div>
+      </div>)
+    }
+    else return this.props.content;
   }
 };
