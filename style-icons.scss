@@ -9,5 +9,3 @@ $types: 'archive', 'audio', 'image';
         --re-file-icon: #{svg('./icons/file/' + $type + '.svg')};
     };
 }
-
-@include icon()

@@ -50,8 +50,6 @@ module.exports = class RichFile extends React.Component {
     if (kb < 1) b = size;
     if (kb >= 1000) mb = roundTo((kb / 1024), 2);
 
-    console.log(b);
-
     const file_size = b ? `${b} bytes` : mb ? `${mb} MB` : `${kb} KB`;
 
 
