@@ -59,9 +59,6 @@ module.exports = class RichFile extends React.Component {
         case 'zip': mime_type[0] = 'archive'; break;
       }
 
-
-      console.log(mime_type[0])
-
       return (<div className='re-file'>
         <div className='re-file-header'>
           <span className={`re-file-name ${username}`}>{file_name}</span>
@@ -69,10 +66,10 @@ module.exports = class RichFile extends React.Component {
         </div>
         <div className='re-file-toolbar'>
           <Tooltip position='top' text={`${mime_type[0].split('')[0].toUpperCase()}${mime_type[0].split('').slice(1).join('')}`}>
-            <div className={`re-file-button re-file-type re-file-${mime_type[0]}`}></div>
+            <div></div><div className={`re-file-button re-file-type re-file-${mime_type[0]}`}></div>
           </Tooltip>
-          <Tooltip position='top' text='Save'><div className={`re-file-button re-file-save`}></div></Tooltip>
-          <Tooltip position='top' text='More'><div className={`re-file-button re-file-more`}></div></Tooltip>
+          <Tooltip className='re-clickable' position='top' text='Save'><div></div><div className='re-file-button re-file-save'></div></Tooltip>
+          <Tooltip className='re-clickable' position='top' text='More'><div></div><div className='re-file-button re-file-more'></div></Tooltip>
         </div>
       </div>)
     }

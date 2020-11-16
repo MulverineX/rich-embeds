@@ -4,24 +4,59 @@
     background-color: var(--background-secondary);
     padding: 8px;
     border-radius: 5px;
+    max-width: 500px;
 
     &>.re-file-toolbar {
-        padding-top: 7px;
-        padding-bottom: 7px;
+        margin-top: 5px;
+
+        width: min-content;
+
         background: var(--background-tertiary);
+        border-radius: 5px;
+        overflow: hidden;
 
-        .re-file-type {
-            color: var(--text-muted);
+        display: grid;
 
-            background: var(--text-muted);
-            -webkit-mask: var(--re-file-icon) center/contain no-repeat;
-            mask: var(--re-file-icon) center/contain no-repeat;
+        grid-template-columns: min-content min-content min-content;
 
-            width: 14px;
-            height: 14px;
+        &>div {
+            width: 46px;
+            height: 24px;
 
-            margin-left: 16px;
-            margin-right: 16px;
+            display: grid;
+
+            grid-template-columns: min-content auto;
+
+            &>:first-child { 
+                background: var(--text-muted);
+                width: 2px;
+                height: 14px;
+                
+                align-self: center;
+            }
+
+            &:first-child>:first-child { width: 0px }
+
+            &>.re-file-button {
+                justify-self: center;
+                align-self: center;
+
+                --re-file-button-color: var(--header-primary);
+                background: var(--re-file-button-color);
+                -webkit-mask: var(--re-file-icon) center/contain no-repeat;
+                mask: var(--re-file-icon) center/contain no-repeat;
+
+                width: 14px;
+                height: 14px;
+            }
+
+            &>.re-file-type { --re-file-button-color: var(--text-muted) }
+
+            &.re-clickable { 
+                cursor: pointer;
+
+                &:hover { background: rgba(255, 255, 255, 0.05) }
+            }
         }
     }
 }
