@@ -11,6 +11,9 @@ const RenderFile = require('./components/RenderFile');
 
 module.exports = class RichEmbeds extends Plugin {
   async startPlugin () {
+    
+    this.loadStylesheet('./style.scss');
+
     const MessageAccessories = (await getModule(['MessageAccessories'])).MessageAccessories.prototype;
 
     inject('rich-embeds-accessories', MessageAccessories, 'render', (f, res) => {
@@ -21,7 +24,10 @@ module.exports = class RichEmbeds extends Plugin {
           embedded_links = [],
           embed_links = [];
 
-      if (embeds.linked) embeds.linked.forEach((embed) => { embedded_links.push(embed.props.children.props.embed.url) });
+      if (embeds.linked) embeds.linked.forEach((embed) => { 
+        if (embed.props.children.props.embed.url) 
+          embedded_links.push(embed.props.children.props.embed.url);
+      });
 
       if (content !== "") {
         const { parse } = getModule(["parse", "parseTopic"], false);
@@ -77,19 +83,17 @@ module.exports = class RichEmbeds extends Plugin {
           for (const link of embed_links) res.props.children[3].push(React.createElement(RenderLink, {
             link: link, message: msg_link
           }));
-
-          console.log(accessories[3]);
         }
 
         // Modify/Overwrite Attachments
-        /*if (embeds.native) for (let i in embeds.native) {
+        if (embeds.native) for (let i in embeds.native) {
           let embed = accessories[2][i].props.children;
 
           if (!embed.height) accessories[2][i] = React.createElement(RenderFile, {
             content: embed, message: msg_link,
-            data: embed.props.attachment
+            embed: embed.props.attachment
           });
-        }*/
+        }
       }
 
       return res;

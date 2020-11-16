@@ -1,0 +1,16 @@
+.re-file {
+    background-color: var(--background-secondary);
+    padding: 8px;
+    border-radius: 5px;
+
+    &>.re-file-toolbar {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        background: var(--background-tertiary);
+        
+        &>.re-file-type {
+            --re-file-icon: #{inline-image('./icons/file/default.svg')};
+            background: var(--re-file-icon);
+        }
+    }
+}

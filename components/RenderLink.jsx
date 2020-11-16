@@ -27,8 +27,6 @@ module.exports = class RichEmbed extends React.Component {
   }
 
   render() {
-    console.log(this.state.content);
-
     return this.state.content;
   }
 };

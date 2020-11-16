@@ -1,0 +1,4 @@
+&>.re-file-type {
+    --re-file-icon: #{svg('./icons/file/default.svg')};
+    background: var(--re-file-icon);
+}
