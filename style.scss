@@ -6,7 +6,7 @@
     border-radius: 5px;
     max-width: 500px;
 
-    &>.re-file-toolbar {
+    &>.re-toolbar {
         margin-top: 5px;
 
         width: min-content;
@@ -18,29 +18,20 @@
         display: grid;
 
         grid-template-columns: min-content min-content min-content;
+        grid-gap: 2px;
 
-        &>div {
+        &>div>.re-toolbar-item {
             width: 46px;
             height: 24px;
 
             display: grid;
 
-            grid-template-columns: min-content auto;
+            grid-template-columns: auto min-content;
 
-            &>:first-child { 
-                background: var(--text-muted);
-                width: 2px;
-                height: 14px;
-                
-                align-self: center;
-            }
-
-            &:first-child>:first-child { width: 0px }
-
-            &>.re-file-button {
+            &>:first-child { // Icon
                 justify-self: center;
                 align-self: center;
-
+                
                 --re-file-button-color: var(--header-primary);
                 background: var(--re-file-button-color);
                 -webkit-mask: var(--re-file-icon) center/contain no-repeat;
@@ -50,7 +41,16 @@
                 height: 14px;
             }
 
-            &>.re-file-type { --re-file-button-color: var(--text-muted) }
+            &>:last-child { // Seperator
+                background: var(--text-muted);
+                width: 2px;
+                height: 14px;
+                
+                align-self: center;
+                margin-right: -2px;
+
+                pointer-events: none;
+            }
 
             &.re-clickable { 
                 cursor: pointer;
@@ -58,5 +58,9 @@
                 &:hover { background: rgba(255, 255, 255, 0.05) }
             }
         }
+
+        &>div:first-child>.re-toolbar-item>:first-child { --re-file-button-color: var(--text-muted) }
+
+        &>div:last-child>.re-toolbar-item>:last-child { width: 0px }
     }
 }

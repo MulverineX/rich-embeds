@@ -60,17 +60,25 @@ module.exports = class RichFile extends React.Component {
         case 'zip': mime_type[0] = 'archive'; break;
       }
 
+      let button = (title, run = false) => {
+        return (
+          <Tooltip position='top' text={title.charAt(0).toUpperCase() + title.slice(1)}>
+            <div className={`re-toolbar-item ${run ? 're-clickable' : ''}`} onClick={run}>
+              <div className={`re-icon-${title}`}></div><div></div>
+            </div>
+          </Tooltip>
+        )
+      }
+
       return (<div className='re-file'>
         <div className='re-file-header'>
           <span className={`re-file-name ${username}`}>{file_name}</span>
           <span className={`re-file-size ${timestamp}`}>{file_size}</span>
         </div>
-        <div className='re-file-toolbar'>
-          <Tooltip position='top' text={mime_type ? `${mime_type[0].charAt(0).toUpperCase()}${mime_type[0].slice(1)}` : 'File'}>
-            <div></div><div className={`re-file-button re-file-type ${mime_type ? `re-file-${mime_type[0]}` : ''}`}></div>
-          </Tooltip>
-          <Tooltip className='re-clickable' position='top' text='Save'><div></div><div className='re-file-button re-file-save'></div></Tooltip>
-          <Tooltip className='re-clickable' position='top' text='More'><div></div><div className='re-file-button re-file-more'></div></Tooltip>
+        <div className='re-toolbar'>
+          { button(mime_type ? mime_type[0] : false) }
+          { button('save', () => window.open(this.props.embed.url)) }
+          { button('more', () => {}) }
         </div>
       </div>)
     }
