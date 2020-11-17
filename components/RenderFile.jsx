@@ -64,7 +64,7 @@ module.exports = class RichFile extends React.Component {
         return (
           <Tooltip position='top' text={title.charAt(0).toUpperCase() + title.slice(1)}>
             <div className={`re-toolbar-item ${run ? 're-clickable' : ''}`} onClick={run}>
-              <div className={`re-icon-${title}`}></div><div></div>
+              <div className={`re-icon re-icon-${title}`}></div><div></div>
             </div>
           </Tooltip>
         )
