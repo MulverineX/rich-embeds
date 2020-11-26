@@ -29,7 +29,7 @@ module.exports = class RichEmbeds extends Plugin {
           embedded_links.push(embed.props.children.props.embed.url);
       });
 
-      if (content !== "") {
+      /*if (content !== "") {
         const { parse } = getModule(["parse", "parseTopic"], false);
 
         let embedded = false;
@@ -60,12 +60,13 @@ module.exports = class RichEmbeds extends Plugin {
             if (display) embed_links.push(e.props.href);
           }
         })
-      }
+      }*/
       
       if ((embeds.linked || embeds.native) || embed_links.length > 0) {
+        const msg_link = [accessories[6].props.channel.guild_id, message.channel_id, message.id];
 
         // Modify/Overwrite Embeds
-        if (embeds.linked) for (let i in embeds.linked) {
+        /*if (embeds.linked) for (let i in embeds.linked) {
           let embed = accessories[3][i].props.children;
 
           if (edit_sites.test(embed.props.embed.url)) accessories[3][i].props.children = React.createElement(RenderSite, {
@@ -74,8 +75,6 @@ module.exports = class RichEmbeds extends Plugin {
           });
         }
 
-        const msg_link = [accessories[6].props.channel.guild_id, message.channel_id, message.id];
-
         // Create/Add Embeds
         if (embed_links.length !== 0) {
           if (!embeds.linked) res.props.children[3] = [];
@@ -83,7 +82,7 @@ module.exports = class RichEmbeds extends Plugin {
           for (const link of embed_links) res.props.children[3].push(React.createElement(RenderLink, {
             link: link, message: msg_link
           }));
-        }
+        }*/
 
         // Modify/Overwrite Attachments
         if (embeds.native) for (let i in embeds.native) {

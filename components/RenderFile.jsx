@@ -76,7 +76,7 @@ module.exports = class RichFile extends React.Component {
           <span className={`re-file-size ${timestamp}`}>{file_size}</span>
         </div>
         <div className='re-toolbar'>
-          { button(mime_type ? mime_type[0] : false) }
+          { button(mime_type ? mime_type[0] : 'file') }
           { button('save', () => window.open(this.props.embed.url)) }
           { button('more', () => {}) }
         </div>
